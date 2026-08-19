@@ -1,7 +1,16 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { reactRouter } from "@react-router/dev/vite";
+import { defineConfig } from "vite";
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
-})
+  plugins: [reactRouter()],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000', // URL base de tu microservicio local
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }
+  }
+});
