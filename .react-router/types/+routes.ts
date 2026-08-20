@@ -14,9 +14,12 @@ type Pages = {
   "/": {
     params: {};
   };
-  "/events/:id": {
+  "/resources/events": {
+    params: {};
+  };
+  "/:eventSlug": {
     params: {
-      "id": string;
+      "eventSlug": string;
     };
   };
 };
@@ -24,20 +27,25 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/events/:id";
+    page: "/" | "/resources/events" | "/:eventSlug";
   };
   "routes/home.jsx": {
     id: "routes/home";
     page: "/";
   };
+  "routes/events-resource.js": {
+    id: "routes/events-resource";
+    page: "/resources/events";
+  };
   "routes/event-detail.jsx": {
     id: "routes/event-detail";
-    page: "/events/:id";
+    page: "/:eventSlug";
   };
 };
 
 type RouteModules = {
   "root": typeof import("./app/root.tsx");
   "routes/home": typeof import("./app/routes/home.jsx");
+  "routes/events-resource": typeof import("./app/routes/events-resource.js");
   "routes/event-detail": typeof import("./app/routes/event-detail.jsx");
 };

@@ -1,4 +1,4 @@
-// React Router v7 configuration
+// React Router framework configuration
 export default {
   // Enable Server-Side Rendering (SSR)
   ssr: true,
