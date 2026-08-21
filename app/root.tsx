@@ -7,6 +7,7 @@ import {
   ScrollRestoration,
 } from "react-router";
 
+import "font-awesome/css/font-awesome.min.css";
 import "./index.css";
 
 export const links = () => [

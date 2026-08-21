@@ -21,6 +21,7 @@ import {
   getEventTitle,
 } from "../lib/event-url.js";
 import EventImage from "../components/event-image.jsx";
+import SiteFooter from "../components/site-footer.jsx";
 import SiteHeader from "../components/site-header.jsx";
 
 function EventCard({ event, eventPath, index, isNew }) {
@@ -406,9 +407,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="bg-brand px-4 py-5 text-center text-sm font-semibold text-black">
-        <p className="mb-0">© 2026 Las Vegas Nightclubs, Inc. All rights reserved.</p>
-      </footer>
+      <SiteFooter showEventHelp />
     </div>
   );
 }
