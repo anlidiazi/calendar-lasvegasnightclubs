@@ -39,22 +39,24 @@ export async function loader({ params, request }) {
   };
 }
 
-export function meta({ data }) {
-  if (!data?.event) {
+export function meta({ loaderData }) {
+  if (!loaderData?.event) {
     return [{ title: "Event not found | Las Vegas Nightclubs" }];
   }
 
-  const title = getEventTitle(data.event);
-  const venue = data.event.venue_name || data.event.venue;
+  const title = getEventTitle(loaderData.event);
+  const venue = loaderData.event.venue_name || loaderData.event.venue;
+  const hotel = loaderData.event.hotel || venue;
+  const eventDate = formatEventDate(loaderData.event.date);
 
   return [
-    { title: `${title} at ${venue} | Las Vegas Nightclubs` },
+    { title: `${title} at ${hotel} on ${eventDate}` },
     {
       name: "description",
-      content: `View event details for ${title} at ${venue} on ${data.event.date}.`,
+      content: `View event details for ${title} at ${venue} on ${loaderData.event.date}.`,
     },
     { property: "og:title", content: `${title} at ${venue}` },
-    { property: "og:url", content: data.canonicalUrl },
+    { property: "og:url", content: loaderData.canonicalUrl },
   ];
 }
 
@@ -199,6 +201,7 @@ function VipPanel({ event, venue }) {
     <ActionPanel
       title="VIP Tables & Bottle Service"
       buttonLabel="Get Pricing & Availability"
+      hoverTextOnly
       buttonType="submit"
       buttonForm={formId}
     >
@@ -247,7 +250,11 @@ function VipPanel({ event, venue }) {
 
 function TicketsPanel({ event }) {
   return (
-    <ActionPanel title="Tickets" buttonLabel="Get Official Tickets">
+    <ActionPanel
+      title="Tickets"
+      buttonLabel="Get Official Tickets"
+      hoverTextOnly
+    >
       <p className="mb-0 font-bold">
         {event.ticketPrice ? `Tickets from $${event.ticketPrice}.` : "Official event tickets and availability."}
       </p>
@@ -302,7 +309,7 @@ export default function EventDetail() {
         </Link>
 
         <h1 className="mb-1 text-[1.75rem] font-normal uppercase leading-tight text-white">
-          {title}
+          {venue}
         </h1>
 
         <article className="grid gap-5 min-[48.0625rem]:grid-cols-[19.6875rem_minmax(0,1fr)] min-[48.0625rem]:items-start">
