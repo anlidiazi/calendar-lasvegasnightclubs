@@ -129,12 +129,6 @@ export default function EventDetail() {
               )}
             </dl>
 
-            {event.ticketPrice && (
-              <p className="mb-0 mt-6 text-sm uppercase text-muted">
-                Tickets from{" "}
-                <strong className="text-xl text-brand">${event.ticketPrice}</strong>
-              </p>
-            )}
             {event.guestList && (
               <p className="mb-0 mt-3 text-sm font-bold uppercase text-white">
                 <span aria-hidden="true">🔥</span> Free on guest list
