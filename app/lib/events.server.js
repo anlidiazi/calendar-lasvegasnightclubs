@@ -81,9 +81,10 @@ function compareEvents(left, right) {
   return Number(left.id) - Number(right.id);
 }
 
-function isDaylifeEvent(event) {
-  const category = `${event.category || ""} ${event.type || ""}`.toLowerCase();
-  return category.includes("dayclub") || category.includes("pool party");
+function isNightclubOrPoolPartyEvent(event) {
+  const category = `${event.category || event.type || ""}`.toLowerCase();
+  return category === "nightclub" || category === "nightclubs" ||
+    category === "pool party" || category === "pool parties";
 }
 
 function getFuzzyEventIds(query) {
@@ -113,7 +114,10 @@ export function getFilteredEvents(filters) {
   const fuzzyEventIds = getFuzzyEventIds(filters.query);
 
   return events
-    .filter((event) => filters.includeDaylife || !isDaylifeEvent(event))
+    .filter(
+      (event) =>
+        !filters.includeDaylife || isNightclubOrPoolPartyEvent(event),
+    )
     .filter((event) => !fuzzyEventIds || fuzzyEventIds.has(event.id))
     .filter((event) => {
       const date = getEventDateValue(event.date);
