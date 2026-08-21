@@ -46,11 +46,10 @@ export function meta({ loaderData }) {
 
   const title = getEventTitle(loaderData.event);
   const venue = loaderData.event.venue_name || loaderData.event.venue;
-  const hotel = loaderData.event.hotel || venue;
-  const eventDate = formatEventDate(loaderData.event.date);
+  const eventDate = formatEventDate(loaderData.event.date).replace(/,/g, "");
 
   return [
-    { title: `${title} at ${hotel} on ${eventDate}` },
+    { title: `${title} at ${venue} on ${eventDate}` },
     {
       name: "description",
       content: `View event details for ${title} at ${venue} on ${loaderData.event.date}.`,
