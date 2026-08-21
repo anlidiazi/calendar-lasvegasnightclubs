@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+@theme {
+  --breakpoint-sm: 36rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 62rem;
+  --breakpoint-xl: 75rem;
+  --color-brand: #ed6c2a;
+  --color-brand-strong: #f58220;
+  --color-night: #1a1a1a;
+  --color-soft: #eaeaea;
+  --color-muted: #b4b4b4;
+  --font-sans: "Roboto", Arial, sans-serif;
+  --shadow-event: 0 0.3125rem 1.3125rem rgb(0 0 0 / 60%);
+  --shadow-event-hover: 0 1rem 2.5rem rgb(0 0 0 / 48%);
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    font-family: var(--font-sans);
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    min-width: 20rem;
+    background: var(--color-night);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-width: 20rem;
+    min-height: 100vh;
+    margin: 0;
+    background:
+      radial-gradient(
+        circle at 50% -10rem,
+        rgb(237 108 42 / 10%),
+        transparent 35rem
+      ),
+      var(--color-night);
+  }
+
+  :focus-visible {
+    outline-color: var(--color-brand-strong);
+  }
+
+  ::selection {
+    background: var(--color-brand);
+    color: #000;
+  }
+}
+
+@layer components {
+  .event-image-placeholder {
+    background:
+      radial-gradient(
+        circle at 50% 35%,
+        rgb(237 108 42 / 30%),
+        transparent 42%
+      ),
+      linear-gradient(145deg, #2a160d 0%, #121214 52%, #050505 100%);
+  }
+
+  .event-image-placeholder::before {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      135deg,
+      transparent 0 1.25rem,
+      rgb(255 255 255 / 3%) 1.25rem 1.3125rem
+    );
+    content: "";
+    pointer-events: none;
+  }
+
+  .event-image-placeholder::after {
+    position: absolute;
+    inset: 0.5rem;
+    border: 1px solid rgb(255 255 255 / 8%);
+    border-radius: 0.625rem;
+    content: "";
+    pointer-events: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes event-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(1.25rem);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .event-reveal {
+    animation: event-reveal 500ms ease-out both;
+  }
+}
