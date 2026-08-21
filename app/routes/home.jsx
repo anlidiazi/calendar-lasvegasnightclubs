@@ -249,7 +249,7 @@ export default function Home() {
         <Form
           method="get"
           action="/"
-          className="mb-10 rounded-2xl border border-white/10 bg-black/65 p-4 shadow-event sm:p-6"
+          className="mb-8 rounded-2xl border border-white/10 bg-black/65 p-3 shadow-event sm:p-4"
           aria-label="Filter events"
           aria-busy={isUpdatingFilters}
           onChange={submitFilters}
@@ -257,12 +257,12 @@ export default function Home() {
             if (filterTimerRef.current) clearTimeout(filterTimerRef.current);
           }}
         >
-          <label className="mb-4 block">
-            <span className="mb-2 block text-xs font-bold uppercase tracking-wider text-soft">
+          <label className="mb-3 block">
+            <span className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-soft">
               Search events
             </span>
             <input
-              className="min-h-12 w-full rounded-xl border border-white/15 bg-night px-4 text-base text-white outline-none transition placeholder:text-muted/75 focus:border-brand focus:ring-2 focus:ring-brand/25"
+              className="min-h-11 w-full rounded-xl border border-white/15 bg-night px-4 text-base text-white outline-none transition placeholder:text-muted/75 focus:border-brand focus:ring-2 focus:ring-brand/25"
               type="search"
               name="q"
               defaultValue={loaderData.filters.query}
@@ -271,13 +271,13 @@ export default function Home() {
             />
           </label>
 
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-3 sm:grid-cols-2">
             <label className="block">
-              <span className="mb-2 block text-xs font-bold uppercase tracking-wider text-soft">
+              <span className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-soft">
                 From date
               </span>
               <input
-                className="min-h-12 w-full rounded-xl border border-white/15 bg-night px-4 text-base text-white outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/25"
+                className="min-h-11 w-full rounded-xl border border-white/15 bg-night px-4 text-base text-white outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/25"
                 type="date"
                 name="from"
                 defaultValue={loaderData.filters.from}
@@ -285,11 +285,11 @@ export default function Home() {
             </label>
 
             <label className="block">
-              <span className="mb-2 block text-xs font-bold uppercase tracking-wider text-soft">
+              <span className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-soft">
                 To date
               </span>
               <input
-                className="min-h-12 w-full rounded-xl border border-white/15 bg-night px-4 text-base text-white outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/25"
+                className="min-h-11 w-full rounded-xl border border-white/15 bg-night px-4 text-base text-white outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/25"
                 type="date"
                 name="to"
                 min={loaderData.filters.from}
@@ -298,21 +298,38 @@ export default function Home() {
             </label>
           </div>
 
-          <div className="mt-5 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-            <label className="inline-flex cursor-pointer items-center gap-3 text-sm font-medium text-soft">
-              <input
-                className="peer sr-only"
-                type="checkbox"
-                role="switch"
-                name="includeDaylife"
-                value="true"
-                defaultChecked={loaderData.filters.includeDaylife}
-              />
-              <span className="relative h-6 w-11 rounded-full bg-zinc-700 transition-colors after:absolute after:left-0.5 after:top-0.5 after:size-5 after:rounded-full after:bg-white after:transition-transform peer-checked:bg-brand peer-checked:after:translate-x-5 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand" />
-              Nightclubs/Pool parties
-            </label>
+          <div className="mt-4 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
+            <fieldset
+              className="w-full sm:w-auto"
+              aria-label="Event type"
+            >
+              <legend className="sr-only">Event type</legend>
+              <div className="grid w-full grid-cols-3 overflow-hidden rounded-lg border border-white/15 bg-night sm:w-[23rem]">
+                {[
+                  ["all", "All"],
+                  ["nightclubs", "Nightclubs"],
+                  ["dayclubs", "Dayclubs"],
+                ].map(([value, label]) => (
+                  <label
+                    className="cursor-pointer border-r border-white/15 last:border-r-0"
+                    key={value}
+                  >
+                    <input
+                      className="peer sr-only"
+                      type="radio"
+                      name="clubType"
+                      value={value}
+                      defaultChecked={loaderData.filters.clubType === value}
+                    />
+                <span className="flex min-h-10 items-center justify-center px-3 text-center text-xs font-bold uppercase text-soft transition-colors hover:bg-white/5 peer-checked:bg-brand peer-checked:text-black peer-focus-visible:outline-2 peer-focus-visible:outline-offset-[-2px] peer-focus-visible:outline-brand">
+                      {label}
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <span
                 className="text-xs font-medium text-muted"
                 role="status"
