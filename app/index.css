@@ -85,6 +85,10 @@
     content: "";
     pointer-events: none;
   }
+
+  .event-date-input:invalid::-webkit-datetime-edit {
+    color: transparent;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -9,7 +9,7 @@ the initial result set and progressively loads additional events in the browser.
 - Server-side rendered event listing and event detail routes.
 - Fuzzy server-side search by DJ, artist, venue, hotel, category, and city.
 - Date range filters using Las Vegas local time for the default start date.
-- Optional inclusion of dayclubs and pool parties.
+- Optional Nightclubs/Pool parties category filter.
 - Hybrid pagination with an SSR first page and accessible infinite scrolling.
 - Legacy-compatible event URLs and canonical redirects.
 - Responsive event cards for mobile, tablet, and desktop layouts.
@@ -120,7 +120,7 @@ microservice.
 | `q` | Fuzzy search across DJ, artist, title, venue, hotel, category, and city |
 | `from` | Inclusive start date in `YYYY-MM-DD` format |
 | `to` | Optional inclusive end date in `YYYY-MM-DD` format |
-| `includeDaylife` | Include dayclub and pool party categories when `true` |
+| `includeDaylife` | Restrict results to Nightclubs and Pool Parties when `true`; all categories are shown by default |
 | `page` | Accessible page number used by SSR fallback links |
 | `cursor` | Cursor-compatible pagination value |
 
