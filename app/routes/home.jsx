@@ -308,7 +308,7 @@ export default function Home() {
                 defaultChecked={loaderData.filters.includeDaylife}
               />
               <span className="relative h-6 w-11 rounded-full bg-zinc-700 transition-colors after:absolute after:left-0.5 after:top-0.5 after:size-5 after:rounded-full after:bg-white after:transition-transform peer-checked:bg-brand peer-checked:after:translate-x-5 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand" />
-              Include dayclubs &amp; pool parties
+              Nightclubs/Pool parties
             </label>
 
             <div className="flex items-center gap-4">
