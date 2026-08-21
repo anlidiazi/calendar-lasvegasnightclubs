@@ -72,11 +72,6 @@ function EventCard({ event, eventPath, index, isNew }) {
             {event.time && <span> · {event.time}</span>}
           </p>
 
-          {event.ticketPrice && (
-            <p className="mb-0 mt-1 text-[0.625rem] uppercase text-muted xl:text-[0.7rem]">
-              From <strong className="text-brand">${event.ticketPrice}</strong>
-            </p>
-          )}
         </div>
 
         <div className="col-span-2 col-start-1 row-start-2 mt-auto min-[30rem]:col-span-1 min-[30rem]:col-start-3 min-[30rem]:row-start-1 min-[30rem]:self-center sm:col-span-2 sm:col-start-1 sm:row-start-2 sm:self-auto md:block md:w-full md:pt-3">
