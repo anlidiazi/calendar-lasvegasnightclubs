@@ -81,9 +81,15 @@ function compareEvents(left, right) {
   return Number(left.id) - Number(right.id);
 }
 
-function isNightclubOrPoolPartyEvent(event) {
-  const category = `${event.category || event.type || ""}`.toLowerCase();
-  return category === "nightclub" || category === "nightclubs" ||
+function matchesClubType(event, clubType) {
+  if (clubType === "all") return true;
+
+  const category = `${event.category || event.type || ""}`.trim().toLowerCase();
+  if (clubType === "nightclubs") {
+    return category === "nightclub" || category === "nightclubs";
+  }
+
+  return category === "dayclub" || category === "dayclubs" ||
     category === "pool party" || category === "pool parties";
 }
 
@@ -102,11 +108,16 @@ function getFuzzyEventIds(query) {
 }
 
 export function getEventFilters(searchParams) {
+  const requestedClubType = searchParams.get("clubType");
+  const clubType = ["nightclubs", "dayclubs", "all"].includes(requestedClubType)
+    ? requestedClubType
+    : "all";
+
   return {
     query: searchParams.get("q")?.trim() || "",
     from: searchParams.get("from") || getLasVegasToday(),
     to: searchParams.get("to") || "",
-    includeDaylife: searchParams.get("includeDaylife") === "true",
+    clubType,
   };
 }
 
@@ -116,7 +127,7 @@ export function getFilteredEvents(filters) {
   return events
     .filter(
       (event) =>
-        !filters.includeDaylife || isNightclubOrPoolPartyEvent(event),
+        matchesClubType(event, filters.clubType),
     )
     .filter((event) => !fuzzyEventIds || fuzzyEventIds.has(event.id))
     .filter((event) => {
