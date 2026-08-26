@@ -23,6 +23,19 @@ import {
 import EventImage from "../components/event-image.jsx";
 import SiteFooter from "../components/site-footer.jsx";
 import SiteHeader from "../components/site-header.jsx";
+import SiteTakeover from "../components/site-takeover.jsx";
+
+function formatListingDate(date) {
+  const dateValue = getEventDateValue(date);
+  if (!dateValue) return date || "";
+
+  return new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${dateValue}T00:00:00Z`));
+}
 
 function EventCard({ event, eventPath, index, isNew }) {
   const eventTitle = getEventTitle(event);
@@ -68,9 +81,10 @@ function EventCard({ event, eventPath, index, isNew }) {
             </p>
           )}
 
-          <p className="mb-0 mt-2 text-[0.625rem] leading-snug text-muted xl:text-[0.7rem]">
-            <time dateTime={getEventDateValue(event.date)}>{event.date}</time>
-            {event.time && <span> · {event.time}</span>}
+          <p className="mb-0 mt-2 text-[0.625rem] leading-snug text-white xl:text-[0.7rem]">
+            <time dateTime={getEventDateValue(event.date)}>
+              {formatListingDate(event.date)}
+            </time>
           </p>
 
         </div>
@@ -226,7 +240,7 @@ export default function Home() {
   const eventCount = events.length;
 
   return (
-    <div className="min-h-screen bg-night text-white">
+    <div className="site-page min-h-screen bg-night text-white">
       <a
         className="fixed left-3 top-3 z-50 -translate-y-40 rounded-lg bg-brand px-4 py-3 font-bold text-black transition-transform focus:translate-y-0"
         href="#main-content"
@@ -235,6 +249,7 @@ export default function Home() {
       </a>
 
       <SiteHeader />
+      <SiteTakeover />
 
       <main id="main-content" className="mx-auto max-w-6xl px-4 pb-16 pt-9">
         <section className="mb-8 text-center" aria-labelledby="page-title">

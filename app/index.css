@@ -55,6 +55,63 @@
 }
 
 @layer components {
+  .site-page {
+    position: relative;
+    isolation: isolate;
+  }
+
+  /* Only the exposed advertising rails are interactive. Content stays above them. */
+  .site-page > :is(header, main, aside:not(.site-takeover), section, footer) {
+    position: relative;
+    z-index: 1;
+  }
+
+  .site-page > main {
+    background-color: var(--color-night);
+  }
+
+  .site-takeover {
+    display: none;
+  }
+
+  @media (min-width: 1145px) {
+    .site-takeover {
+      /* Desktop header: 4px top border + 115px logo row + 1px divider + 68px nav. */
+      position: absolute;
+      top: 188px;
+      right: 0;
+      left: 0;
+      z-index: 0;
+      display: block;
+      width: min(100%, 2600px);
+      height: 1300px;
+      margin-inline: auto;
+      background: url("/images/ads/omnia-dayclub-takeover.png") center top / 2600px 1300px no-repeat;
+      pointer-events: none;
+    }
+
+    .site-takeover-link {
+      position: absolute;
+      top: 0;
+      width: max(0px, calc((100% - 1152px) / 2));
+      height: 1200px;
+      pointer-events: auto;
+    }
+
+    .site-takeover-link-left {
+      left: 0;
+    }
+
+    .site-takeover-link-right {
+      right: 0;
+    }
+
+    .site-takeover-link:focus-visible {
+      outline: 3px solid var(--color-brand-strong);
+      outline-offset: -3px;
+    }
+  }
+
   .event-image-placeholder {
     background:
       radial-gradient(
