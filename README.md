@@ -7,6 +7,7 @@ the initial result set and progressively loads additional events in the browser.
 ## Main features
 
 - Server-side rendered event listing and event detail routes.
+- Server-rendered Schema.org `Event` data in JSON-LD on every event detail page.
 - Fuzzy server-side search by DJ, artist, venue, hotel, category, and city.
 - Date range filters using Las Vegas local time for the default start date.
 - Optional Nightclubs/Pool parties category filter.
@@ -69,6 +70,14 @@ Run a production build locally:
 ```bash
 npm run build
 npm run start
+```
+
+Run the standard project checks before committing:
+
+```bash
+npm run lint
+npm run typecheck
+npm run build
 ```
 
 ## Application routes
@@ -156,6 +165,49 @@ Title segments separated by ` - ` retain the legacy triple-hyphen format:
 
 Event detail loaders validate the numeric ID and redirect non-canonical slugs.
 
+## Event structured data
+
+Every `/:eventSlug` page renders a server-side
+`<script type="application/ld+json">` block that describes the current event
+using the Schema.org `Event` vocabulary. The markup includes the canonical event
+URL, name, start date, status, attendance mode, venue, available address fields,
+images, performer, and organizer.
+
+Event times are converted from the display value, such as `10:30 PM`, to an
+ISO-8601 value. The UTC offset is calculated for `America/Los_Angeles`, so
+daylight saving time is represented as `-07:00` and standard time as `-08:00`
+when appropriate.
+
+Optional values are emitted only when the event service provides them:
+
+| Event field | JSON-LD usage |
+| --- | --- |
+| `address` or `streetAddress` | `location.address.streetAddress` |
+| `city` or `addressLocality` | `location.address.addressLocality` |
+| `state` or `addressRegion` | `location.address.addressRegion` |
+| `zip` or `postalCode` | `location.address.postalCode` |
+| `endDate` and/or `endTime` | `endDate` |
+| `guestListUrl` | Free guest-list `Offer` |
+| `ticketUrl` and `ticketPrice` | Official ticket `Offer` |
+| `description` | Event description |
+| `organizerUrl` or `venueUrl` | Organizer URL |
+| `imageUrls` or `flyerUrl` | Additional event images |
+
+An offer is not generated unless it has a real guest-list or ticket URL. This
+prevents the structured data from advertising an action that is not available
+on the site.
+
+During development, start the site and inspect any event detail page:
+
+```bash
+npm run dev
+```
+
+For deployed pages, validate the result with the
+[Google Rich Results Test](https://search.google.com/test/rich-results) and the
+[Schema.org Markup Validator](https://validator.schema.org/). Structured data
+must always match the information visible on the event page.
+
 ## Responsive layout
 
 Tailwind breakpoints are aligned with the existing calendar layout:
@@ -198,7 +250,7 @@ flow to remain unchanged.
 app/
   components/          Shared header, logo, and event image components
   data/events.json     Simulated event data
-  lib/                 Event service and legacy URL utilities
+  lib/                 Event service, JSON-LD builder, and URL utilities
   routes/              Home, resource, and event detail routes
   index.css            Tailwind theme and shared visual rules
   root.tsx             Global HTML shell and metadata
