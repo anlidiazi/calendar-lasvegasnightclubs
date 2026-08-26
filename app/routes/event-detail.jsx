@@ -12,6 +12,10 @@ import {
   getEventDateValue,
   getEventTitle,
 } from "../lib/event-url.js";
+import {
+  buildEventJsonLd,
+  serializeJsonLd,
+} from "../lib/event-schema.js";
 import EventImage from "../components/event-image.jsx";
 import SiteFooter from "../components/site-footer.jsx";
 import SiteHeader from "../components/site-header.jsx";
@@ -292,14 +296,19 @@ function DescriptionPanel({ event, venue }) {
 }
 
 export default function EventDetail() {
-  const { event } = useLoaderData();
+  const { event, canonicalUrl } = useLoaderData();
   const title = getEventTitle(event);
   const venue = event.venue_name || event.venue;
+  const eventJsonLd = buildEventJsonLd(event, canonicalUrl);
 
   return (
     <div className="site-page min-h-screen bg-night text-white">
       <SiteHeader />
       <SiteTakeover />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(eventJsonLd) }}
+      />
 
       <main className="mx-auto max-w-[64.625rem] px-6 py-6">
         <Link
