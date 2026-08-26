@@ -15,6 +15,7 @@ import {
 import EventImage from "../components/event-image.jsx";
 import SiteFooter from "../components/site-footer.jsx";
 import SiteHeader from "../components/site-header.jsx";
+import SiteTakeover from "../components/site-takeover.jsx";
 
 export async function loader({ params, request }) {
   const id = params.eventSlug?.match(/^(\d+)-/)?.[1];
@@ -296,8 +297,9 @@ export default function EventDetail() {
   const venue = event.venue_name || event.venue;
 
   return (
-    <div className="min-h-screen bg-night text-white">
+    <div className="site-page min-h-screen bg-night text-white">
       <SiteHeader />
+      <SiteTakeover />
 
       <main className="mx-auto max-w-[64.625rem] px-6 py-6">
         <Link
